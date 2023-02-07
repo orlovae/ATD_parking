@@ -9,10 +9,16 @@ fun main(args: Array<String>) {
         parking.getPlace(2)
     )
 
-    val car = Car("Mers", "black", "x666xx")
+    val owner = Owner("Vasya", 5401205116)
+    val car = Car("Mers", "black", "x666xx", owner)
     val managerImpl = ManagerImpl(parking)
     managerImpl.parkingCar(car)
 
     println(car.parkingPlace?.car)
     println(car.parkingPlace?.number)
+
+    managerImpl.getCarOwner(owner)
+    println(car.parkingPlace?.car)
+    println(car.parkingPlace?.number)
+
 }
