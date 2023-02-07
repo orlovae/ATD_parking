@@ -6,7 +6,9 @@ class Parking(numberPlaces: Int) {
     init{
         numberPlaces - Config.START_INDEX
         for (i in 0 ..numberPlaces) {
-            _places.add(Place(Config.SYMBOL + i))
+            _places.add(
+                Place(Config.SYMBOL + i)
+            )
         }
         places = Collections.unmodifiableList(_places)
     }
