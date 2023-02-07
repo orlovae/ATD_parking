@@ -5,7 +5,7 @@ class Parking(numberPlaces: Int) {
     private var places = listOf<Place>()
     init{
         numberPlaces - Config.START_INDEX
-        for (i in 0 ..numberPlaces) {
+        for (i in 1 ..numberPlaces) {
             _places.add(
                 Place(Config.SYMBOL + i)
             )
@@ -19,5 +19,14 @@ class Parking(numberPlaces: Int) {
 
     fun getPlace(index: Int): Place {
         return places[index]
+    }
+
+    fun containsFreePlace() : Boolean {
+        places.forEach {
+            if (it.car == null) {
+                return true
+            }
+        }
+        return false
     }
 }

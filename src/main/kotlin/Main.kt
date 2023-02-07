@@ -8,4 +8,11 @@ fun main(args: Array<String>) {
     println(
         parking.getPlace(2)
     )
+
+    val car = Car("Mers", "black", "x666xx")
+    val managerImpl = ManagerImpl(parking)
+    managerImpl.parkingCar(car)
+
+    println(car.parkingPlace?.car)
+    println(car.parkingPlace?.number)
 }

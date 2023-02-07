@@ -1,7 +1,16 @@
-class ManagerImpl(val parking: Parking) : Manager {
+class ManagerImpl(private var parking: Parking) : Manager {
 
     override fun parkingCar(car: Car): Boolean {
-        TODO("Not yet implemented")
+        if (parking.containsFreePlace()) {
+            parking.getParking().forEach {
+                if (it.car == null) {
+                    it.car = car
+                    car.parkingPlace = it
+                    return true
+                }
+            }
+        }
+        return false
     }
 
     override fun getCarOwner(owner: Owner): Car {
