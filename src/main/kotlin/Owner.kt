@@ -1,5 +1,5 @@
-class Owner {
-    val name : String? = null
-    val numberPassport : Int? = null
-    val cars : List<Car> = emptyList()
-}
+data class Owner(
+    val name : String,
+    val numberPassport : Int,
+    val cars : List<Car> = emptyList()) {
+    }
