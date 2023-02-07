@@ -23,7 +23,7 @@ class Parking(numberPlaces: Int) {
 
     fun containsFreePlace() : Boolean {
         places.forEach {
-            if (it.car == null) {
+            if (it.isFree) {
                 return true
             }
         }

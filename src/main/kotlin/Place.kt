@@ -1,5 +1,5 @@
 data class Place(
-    val number: String
+    val number: String,
+    var isFree: Boolean = true
 ){
-    var car: Car? = null
 }
