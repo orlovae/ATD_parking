@@ -20,6 +20,18 @@ fun main(args: Array<String>) {
         println(it)
     }
 
+    val place = managerImpl.getPlaceWhereParkingCar(car)
+    println(place)
 
+    managerImpl.getCarOwner(owner)
+
+    val stateParking1 = managerImpl.loadStateParking()
+
+    stateParking1.forEach {
+        println(it)
+    }
+
+    val place1 = managerImpl.getPlaceWhereParkingCar(car)
+    println(place1)
 
 }

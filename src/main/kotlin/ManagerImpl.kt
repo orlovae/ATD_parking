@@ -22,17 +22,32 @@ class ManagerImpl(private var parking: Parking) : Manager {
 
     override fun getCarOwner(owner: Owner): Car? {
         var car: Car? = null
-//        parking.getParking().forEach {
-//            if (it.car != null) {
-//                car = it.car!!
-//                val ownerCar = car!!.owner
-//                if (ownerCar == owner) {
-//                    car!!.parkingPlace = null
-//                    it.car = null
-//                }
-//            }
-//        }
+        var tmpKey: Place? = null
+        _map.forEach{(key, value) ->
+            if (value != null) {
+                if (value.owner == owner) {
+                    car = value
+                    key.isFree = true
+                    tmpKey = key
+                }
+            }
+        }
+        if (tmpKey != null) {
+            _map.put(tmpKey!!, null)
+        }
         return car
+    }
+
+    override fun getPlaceWhereParkingCar(car: Car): Place? {
+        var place: Place? = null
+        _map.forEach{(key, value) ->
+            if (value != null) {
+                if (value == car) {
+                    place = key
+                }
+            }
+        }
+        return place
     }
 
     override fun loadStateParking(): List<String> {
