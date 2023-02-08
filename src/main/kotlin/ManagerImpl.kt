@@ -81,4 +81,8 @@ class ManagerImpl(private var parking: Parking) : Manager {
         TODO("Not yet implemented")
     }
 
+    fun containsInputPlaceInParking(place: Place) : Boolean {
+        return _map.containsKey(place)
+    }
+
 }

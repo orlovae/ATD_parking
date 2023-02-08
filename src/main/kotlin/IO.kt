@@ -1,7 +1,7 @@
 import kotlin.system.exitProcess
 
 object IO {
-    val manager = ManagerImpl(Parking(20))
+    private val manager = ManagerImpl(Parking(20))
     fun readConsole() {
         while (true) {
             when (readlnOrNull()) {
@@ -11,6 +11,7 @@ object IO {
                 IN_RETURN -> retunCar()
                 IN_PARK -> parkCar()
                 IN_PARK_INFO_BY_CAR -> parkInfoByCar()
+                IN_PARK_INFO_BY_PLACE -> parkInfoByPlace()
                 else -> println(OUT_UNKNOWN)
             }
         }
@@ -161,6 +162,45 @@ object IO {
         }
     }
 
+    private fun parkInfoByPlace(){
+        val inputString = readln()
+        val numberPlace = getInputNumberPlaceOrNull(inputString)
+        var bol = isNotNumberPlace(numberPlace)
+        while (bol) {
+            printCheckInputNumberPlace(bol, numberPlace)
+            val inputStringNext = readln()
+            val numberPlaceNext = getInputNumberCarOrNull(inputStringNext)
+            bol = isNotNumberPlace(numberPlaceNext)
+            printCheckInputNumberPlace(bol, numberPlaceNext)
+        }
+    }
+
+    private fun getInputNumberPlaceOrNull(inputString: String): String {
+        return if (inputString.isNotEmpty()) {
+            inputString
+        } else {
+            println(OUT_ERROR_INPUT_PLACE_NUMBER_NOT_FOUND)
+            ""
+        }
+    }
+    private fun isNotNumberPlace(numberPlace: String): Boolean {
+        return !manager.containsInputPlaceInParking(Place(numberPlace))
+    }
+
+    private fun printCheckInputNumberPlace(error: Boolean, numberPlace: String) {
+        if (error) {
+            println(OUT_ERROR_INPUT_PLACE_NUMBER_NOT_FOUND)
+        } else {
+            val car = manager.getInfoPlace(Place(numberPlace))
+            if (car != null) {
+            println("Place $numberPlace parking in $car")
+            } else {
+                println("Place $numberPlace is free")
+            }
+        }
+    }
+
+
     /*Constant input*/
     private const val IN_START = "/start"
     private const val IN_HELP = "/help"
@@ -168,6 +208,7 @@ object IO {
     private const val IN_RETURN = "/return"
     private const val IN_PARK = "/park"
     private const val IN_PARK_INFO_BY_CAR = "/park_info_by_car"
+    private const val IN_PARK_INFO_BY_PLACE = "/park_info_by_place"
 
     /*Constant output*/
     private const val OUT_START = "Hello user!"
@@ -194,4 +235,6 @@ object IO {
             "\nThe CAR NUMBER value can't be empty and must consist of at least 1 letter."
     private const val OUT_ERROR_INPUT_CAR_NUMBER_NOT_FOUND = "Invalid value - CAR NUMBER. " +
             "\nCar NOT FOUND."
+    private const val OUT_ERROR_INPUT_PLACE_NUMBER_NOT_FOUND = "Invalid value - PLACE NUMBER. " +
+            "\nPlace NOT FOUND."
 }
