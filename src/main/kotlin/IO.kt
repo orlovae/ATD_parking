@@ -8,7 +8,7 @@ object IO {
                 IN_START -> println(OUT_START)
                 IN_HELP -> println(OUT_HELP)
                 IN_END -> end()
-                IN_RETURN -> retunCar()
+                IN_RETURN -> returnCar()
                 IN_PARK -> parkCar()
                 IN_PARK_INFO_BY_CAR -> parkInfoByCar()
                 IN_PARK_INFO_BY_PLACE -> parkInfoByPlace()
@@ -22,7 +22,7 @@ object IO {
         exitProcess(0)
     }
 
-    private fun retunCar() {
+    private fun returnCar() {
         val inputString = readln()
         var owner = getInputOwnerOrNull(inputString)
         while (owner == null) {
@@ -32,11 +32,10 @@ object IO {
 
        val car = manager.getCarOwner(owner)
 
-        /*По идее нужно не исключение бросать, а писать, что невозможно вернуть машину, так как машины то и нету.*/
-        if (car != null) {
+         if (car != null) {
             println("$car get owner $owner")
         } else {
-            throw Exception(ERROR_RETURN_CAR)
+            println("This $owner does not belong to any car")
         }
     }
 
@@ -74,11 +73,11 @@ object IO {
         }
 
         val isParking = manager.parkingCar(car)
-        /*По идее нужно не исключение бросать, а писать, что невозможно вернуть машину, так как машины то и нету.*/
-        if (isParking) {
+
+         if (isParking) {
             println("$car parking")
         } else {
-            throw Exception(ERROR_PARKING_CAR)
+            println("This $car doesn't have a single owner")
         }
     }
 
@@ -179,7 +178,6 @@ object IO {
         return if (inputString.isNotEmpty()) {
             inputString
         } else {
-            println(OUT_ERROR_INPUT_PLACE_NUMBER_NOT_FOUND)
             ""
         }
     }
