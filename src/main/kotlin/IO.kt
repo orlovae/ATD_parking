@@ -193,7 +193,7 @@ object IO {
             if (car != null) {
             println("Place $numberPlace parking in $car")
             } else {
-                println("Place $numberPlace is free")
+                println("Place $numberPlace is empty")
             }
         }
     }
@@ -212,7 +212,15 @@ object IO {
     private const val OUT_START = "Hello user!"
     private const val OUT_HELP = "/start - starting this program." +
             "\n/end - end and exit this program." +
-            "\n/help - print help this program."
+            "\n/help - print help this program." +
+            "\n/return - returns the car from the parking place to the owner. " +
+            "\n          Enter the data in the following format \"ivan 5401205116\"" +
+            "\n/park - parks the car in an empty space. " +
+            "\n        Enter the data in the following format \"mercedes black x666xx ivan 5401205116\"" +
+            "\n/park_info_by_car - returns the number of the parking place where it is parked by the number of the car. " +
+            "\n                    Enter the data in the following format \"x666xx" +
+            "\n/park_info_by_place - by the number of the place, returns the number of the car located there, or the freedom of this place. " +
+            "\n                      Enter the data in the following format \"P1"
     private const val OUT_UNKNOWN = "This program cannot process the request. \nPlease call /help"
     private const val OUT_END = "See you user!"
 
