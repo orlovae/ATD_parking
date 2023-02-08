@@ -126,30 +126,37 @@ object IO {
         return _car
     }
 
-    /*рефакторить, при неверном значении номера машины, бросается исключение*/
     private fun parkInfoByCar() {
         val inputString = readln()
-        var numberCar = getInputNumberCarOrNull(inputString)
-        while (numberCar.isEmpty()) {
+        val numberCar = getInputNumberCarOrNull(inputString)
+        var bol = isNotNumberCar(numberCar)
+        while (bol) {
+            printCheckInputNumberCar(bol, numberCar)
             val inputStringNext = readln()
-            numberCar = getInputNumberCarOrNull(inputStringNext)
+            val numberCarNext = getInputNumberCarOrNull(inputStringNext)
+            bol = isNotNumberCar(numberCarNext)
+            printCheckInputNumberCar(bol, numberCarNext)
         }
+    }
+
+    private fun isNotNumberCar(numberCar: String): Boolean {
         val place = manager.getPlaceWhereParkingCar(numberCar)
+        return place == null
+    }
 
-        /*По идее нужно не исключение бросать, а писать, что невозможно вернуть машину, так как места то и нету.*/
-        if (place != null) {
-            println("Car $numberCar parking in $place")
+    private fun printCheckInputNumberCar(error: Boolean, numberCar: String) {
+        if (error) {
+            println(OUT_ERROR_INPUT_CAR_NUMBER_NOT_FOUND)
         } else {
-            throw Exception(ERROR_RETURN_CAR)
+            println("Car $numberCar parking in ${manager.getPlaceWhereParkingCar(numberCar)}")
         }
-
     }
 
     private fun getInputNumberCarOrNull(inputString: String): String {
         return if (inputString.isNotEmpty()) {
             inputString
         } else {
-            println(OUT_ERROR_INPUT_CAR_NUMBER)
+            println(OUT_ERROR_INPUT_CAR_NUMBER_NOT_FOUND)
             ""
         }
     }
@@ -185,4 +192,6 @@ object IO {
             "\nThe CAR COLOR value can't be empty and must consist of at least 1 letter."
     private const val OUT_ERROR_INPUT_CAR_NUMBER = "Invalid value - CAR NUMBER. " +
             "\nThe CAR NUMBER value can't be empty and must consist of at least 1 letter."
+    private const val OUT_ERROR_INPUT_CAR_NUMBER_NOT_FOUND = "Invalid value - CAR NUMBER. " +
+            "\nCar NOT FOUND."
 }
