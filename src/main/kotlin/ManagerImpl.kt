@@ -36,11 +36,11 @@ class ManagerImpl(private var parking: Parking) : Manager {
         return car
     }
 
-    override fun getPlaceWhereParkingCar(car: Car): Place? {
+    override fun getPlaceWhereParkingCar(numberCar: String): Place? {
         var place: Place? = null
         _map.forEach{(key, value) ->
             if (value != null) {
-                if (value == car) {
+                if (value.number == numberCar) {
                     place = key
                 }
             }

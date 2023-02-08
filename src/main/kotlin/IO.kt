@@ -10,6 +10,7 @@ object IO {
                 IN_END -> end()
                 IN_RETURN -> retunCar()
                 IN_PARK -> parkCar()
+                IN_PARK_INFO_BY_CAR -> parkInfoByCar()
                 else -> println(OUT_UNKNOWN)
             }
         }
@@ -32,9 +33,9 @@ object IO {
 
         /*По идее нужно не исключение бросать, а писать, что невозможно вернуть машину, так как машины то и нету.*/
         if (car != null) {
-            println("Car $car get owner $owner")
+            println("$car get owner $owner")
         } else {
-            throw Exception(ERROR_PARKING_CAR)
+            throw Exception(ERROR_RETURN_CAR)
         }
     }
 
@@ -65,15 +66,93 @@ object IO {
     }
     private fun parkCar() {
         val inputString = readln()
-        var car = getInputOwnerOrNull(inputString)
+        var car = getInputCarOrNull(inputString)
         while (car == null) {
             val inputStringNext = readln()
-            car = getInputOwnerOrNull(inputStringNext)
+            car = getInputCarOrNull(inputStringNext)
         }
 
-        manager.parkingCar(car)
+        val isParking = manager.parkingCar(car)
+        /*По идее нужно не исключение бросать, а писать, что невозможно вернуть машину, так как машины то и нету.*/
+        if (isParking) {
+            println("$car parking")
+        } else {
+            throw Exception(ERROR_PARKING_CAR)
+        }
     }
 
+    private fun getInputCarOrNull(string: String) : Car? {
+        var _car: Car? = null
+        val list: List<String> = string.split(" ")
+        val inputBrandCar = list[0]
+
+        val inputColorCar : String = if (list.size > 1) {
+            list[1]
+        } else {
+            ""
+        }
+        val inputNumberCar: String = if (list.size > 2) {
+            list[2]
+        } else {
+            ""
+        }
+        val inputNameOwner: String = if (list.size > 3) {
+            list[3]
+        } else {
+            ""
+        }
+        val inputPassportOwner: String = if (list.size > 4) {
+            list[4]
+        } else {
+            ""
+        }
+
+        if (inputBrandCar.isEmpty()) {
+            println(OUT_ERROR_INPUT_CAR_BRAND)
+        }
+        if (inputColorCar.isEmpty()){
+            println(OUT_ERROR_INPUT_CAR_COLOR)
+        }
+        if (inputNumberCar.isEmpty()){
+            println(OUT_ERROR_INPUT_CAR_NUMBER)
+        }
+
+        val owner = getInputOwnerOrNull("$inputNameOwner $inputPassportOwner")
+
+        if (owner != null) {
+            _car = Car(inputBrandCar, inputColorCar, inputNumberCar, owner)
+        }
+
+        return _car
+    }
+
+    /*рефакторить, при неверном значении номера машины, бросается исключение*/
+    private fun parkInfoByCar() {
+        val inputString = readln()
+        var numberCar = getInputNumberCarOrNull(inputString)
+        while (numberCar.isEmpty()) {
+            val inputStringNext = readln()
+            numberCar = getInputNumberCarOrNull(inputStringNext)
+        }
+        val place = manager.getPlaceWhereParkingCar(numberCar)
+
+        /*По идее нужно не исключение бросать, а писать, что невозможно вернуть машину, так как места то и нету.*/
+        if (place != null) {
+            println("Car $numberCar parking in $place")
+        } else {
+            throw Exception(ERROR_RETURN_CAR)
+        }
+
+    }
+
+    private fun getInputNumberCarOrNull(inputString: String): String {
+        return if (inputString.isNotEmpty()) {
+            inputString
+        } else {
+            println(OUT_ERROR_INPUT_CAR_NUMBER)
+            ""
+        }
+    }
 
     /*Constant input*/
     private const val IN_START = "/start"
@@ -81,6 +160,7 @@ object IO {
     private const val IN_END = "/end"
     private const val IN_RETURN = "/return"
     private const val IN_PARK = "/park"
+    private const val IN_PARK_INFO_BY_CAR = "/park_info_by_car"
 
     /*Constant output*/
     private const val OUT_START = "Hello user!"
@@ -92,10 +172,17 @@ object IO {
 
     /*Constant error*/
     private const val OUT_ERROR_INPUT_OWNER_NAME = "Invalid value - OWNER NAME. " +
-            "\nThe NAME value can't be empty and must consist of at least 1 letter."
+            "\nThe OWNER NAME value can't be empty and must consist of at least 1 letter."
     private const val OUT_ERROR_INPUT_OWNER_PASSPORT_EMPTY = "Invalid value - OWNER PASSPORT. " +
             "\nThe PASSPORT value can't be empty."
     private const val OUT_ERROR_INPUT_OWNER_PASSPORT_NO_LONG = "Invalid value - OWNER PASSPORT. " +
             "\nThe PASSPORT value must consist of at least 6 digits."
+    private const val ERROR_RETURN_CAR = "Something went wrong. Car doesn't exist"
     private const val ERROR_PARKING_CAR = "Something went wrong. Car doesn't exist"
+    private const val OUT_ERROR_INPUT_CAR_BRAND = "Invalid value - CAR BRAND. " +
+            "\nThe CAR BRAND value can't be empty and must consist of at least 1 letter."
+    private const val OUT_ERROR_INPUT_CAR_COLOR = "Invalid value - CAR COLOR. " +
+            "\nThe CAR COLOR value can't be empty and must consist of at least 1 letter."
+    private const val OUT_ERROR_INPUT_CAR_NUMBER = "Invalid value - CAR NUMBER. " +
+            "\nThe CAR NUMBER value can't be empty and must consist of at least 1 letter."
 }
