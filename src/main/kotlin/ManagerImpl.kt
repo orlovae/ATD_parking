@@ -11,9 +11,8 @@ class ManagerImpl(private var parking: Parking) : Manager {
 
     override fun parkingCar(car: Car): Boolean {
         _map.forEach { (key, value) ->
-            if (key.isFree) {
+            if (value == null) {
                 _map += key to car
-                key.isFree = false
                 return true
             }
         }
@@ -27,13 +26,12 @@ class ManagerImpl(private var parking: Parking) : Manager {
             if (value != null) {
                 if (value.owner == owner) {
                     car = value
-                    key.isFree = true
                     tmpKey = key
                 }
             }
         }
         if (tmpKey != null) {
-            _map.put(tmpKey!!, null)
+            _map[tmpKey!!] = null
         }
         return car
     }
@@ -48,6 +46,18 @@ class ManagerImpl(private var parking: Parking) : Manager {
             }
         }
         return place
+    }
+
+    override fun getInfoPlace(place: Place): Car? {
+        var car: Car? = null
+        _map.forEach{(key, value) ->
+            if (key == place) {
+                if (value != null) {
+                    car = value
+                }
+            }
+        }
+        return car
     }
 
     override fun loadStateParking(): List<String> {

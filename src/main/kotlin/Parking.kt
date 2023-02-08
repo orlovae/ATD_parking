@@ -20,13 +20,4 @@ class Parking(numberPlaces: Int) {
     fun getPlace(index: Int): Place {
         return places[index]
     }
-
-    fun containsFreePlace() : Boolean {
-        places.forEach {
-            if (it.isFree) {
-                return true
-            }
-        }
-        return false
-    }
 }

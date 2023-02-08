@@ -23,6 +23,9 @@ fun main(args: Array<String>) {
     val place = managerImpl.getPlaceWhereParkingCar(car)
     println(place)
 
+    val car01 = managerImpl.getInfoPlace(Place("P1"))
+    println("P1 is $car01")
+
     managerImpl.getCarOwner(owner)
 
     val stateParking1 = managerImpl.loadStateParking()
@@ -33,5 +36,8 @@ fun main(args: Array<String>) {
 
     val place1 = managerImpl.getPlaceWhereParkingCar(car)
     println(place1)
+
+    val car02 = managerImpl.getInfoPlace(Place("P1"))
+    println("P1 is $car02")
 
 }
