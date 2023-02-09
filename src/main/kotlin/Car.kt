@@ -1,8 +1,13 @@
 data class Car (
-    val brand : String = "",
-    val color : String = "",
-    val number : String = "",
-    val owner : Owner
+    val brand : String,
+    val color : String,
+    val number : String,
+    val owner: Owner
 ){
-    var parkingPlace: Place? = null
+    override fun toString(): String {
+        return "Car $brand " +
+                "$color " +
+                "$number, " +
+                "owner $owner"
+    }
 }

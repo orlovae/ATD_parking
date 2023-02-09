@@ -1,5 +1,7 @@
 data class Place(
     val number: String
 ){
-    var car: Car? = null
+    override fun toString(): String {
+        return "Place - $number"
+    }
 }
