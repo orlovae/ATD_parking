@@ -2,17 +2,20 @@ import java.util.Collections
 
 class ManagerImpl(private var parking: Parking) : Manager {
     private var _map = mutableMapOf<Place, Car?>()
+    private var counterParking: Int
 
     init {
         parking.getParking().forEach {
             _map[it] = null
         }
+        counterParking = 0
     }
 
     override fun parkingCar(car: Car): Boolean {
         _map.forEach { (key, value) ->
             if (value == null) {
                 _map += key to car
+                counterParking++
                 return true
             }
         }
@@ -60,7 +63,7 @@ class ManagerImpl(private var parking: Parking) : Manager {
         return car
     }
 
-    override fun loadStateParking(): List<String> {
+    override fun getStateParking(): List<String> {
         val stateParking = mutableListOf<String>()
         _map.forEach { (key, value) ->
             val string = StringBuilder()
@@ -77,8 +80,8 @@ class ManagerImpl(private var parking: Parking) : Manager {
         return Collections.unmodifiableList(stateParking)
     }
 
-    override fun loadStatistics(period: String): String {
-        TODO("Not yet implemented")
+    override fun getCounterParking(): Int {
+        return counterParking
     }
 
     fun containsInputPlaceInParking(place: Place) : Boolean {

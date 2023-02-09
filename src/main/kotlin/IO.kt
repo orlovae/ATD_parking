@@ -12,6 +12,8 @@ object IO {
                 IN_PARK -> parkCar()
                 IN_PARK_INFO_BY_CAR -> parkInfoByCar()
                 IN_PARK_INFO_BY_PLACE -> parkInfoByPlace()
+                IN_PARK_STATS -> parkStats()
+                IN_PARK_ALL_STATS -> parkAllStats()
                 else -> println(OUT_UNKNOWN)
             }
         }
@@ -198,6 +200,18 @@ object IO {
         }
     }
 
+    private fun parkStats() {
+        val currentState = manager.getStateParking()
+        currentState.forEach {
+            println(it)
+        }
+    }
+
+    private fun parkAllStats(){
+        val counterParking = manager.getCounterParking()
+        println("During the entire operation of the parking lot, $counterParking cars were parked")
+    }
+
 
     /*Constant input*/
     private const val IN_START = "/start"
@@ -207,6 +221,8 @@ object IO {
     private const val IN_PARK = "/park"
     private const val IN_PARK_INFO_BY_CAR = "/park_info_by_car"
     private const val IN_PARK_INFO_BY_PLACE = "/park_info_by_place"
+    private const val IN_PARK_STATS = "/park_stats"
+    private const val IN_PARK_ALL_STATS = "/park_all_stats"
 
     /*Constant output*/
     private const val OUT_START = "Hello user!"
@@ -220,7 +236,9 @@ object IO {
             "\n/park_info_by_car - returns the number of the parking place where it is parked by the number of the car. " +
             "\n                    Enter the data in the following format \"x666xx" +
             "\n/park_info_by_place - by the number of the place, returns the number of the car located there, or the freedom of this place. " +
-            "\n                      Enter the data in the following format \"P1"
+            "\n                      Enter the data in the following format \"P1" +
+            "\n/park_stats - returns the current parking load." +
+            "\n/park_all_stats - returns how many cars were parked during the entire operation."
     private const val OUT_UNKNOWN = "This program cannot process the request. \nPlease call /help"
     private const val OUT_END = "See you user!"
 

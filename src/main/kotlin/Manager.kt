@@ -4,7 +4,6 @@ interface Manager {
     fun getCarOwner(owner: Owner) : Car?
     fun getPlaceWhereParkingCar(numberCar: String) : Place?
     fun getInfoPlace(place: Place) : Car?
-    fun loadStateParking() : List<String>
-    /*может быть вывод мапы, где k-дата, v-отчёт*/
-    fun loadStatistics(period: String) : String
+    fun getStateParking() : List<String>
+    fun getCounterParking() : Int
 }
