@@ -45,6 +45,7 @@ class ManagerImpl(private var parking: Parking) : Manager {
             if (value != null) {
                 if (value.number == numberCar) {
                     place = key
+                    return@forEach
                 }
             }
         }
