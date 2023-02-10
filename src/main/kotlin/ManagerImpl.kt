@@ -23,48 +23,28 @@ class ManagerImpl(private var parking: Parking) : Manager {
     }
 
     override fun getCarOwner(owner: Owner): Car? {
-        var car: Car? = null
-        var tmpKey: Place? = null
-        _map.forEach{(key, value) ->
-            if (value != null) {
-                if (value.owner == owner) {
-                    car = value
-                    tmpKey = key
-                }
-            }
+        val filteredMap = _map.filter { (_, value) ->
+            value?.owner == owner
         }
-        if (tmpKey != null) {
-            _map[tmpKey!!] = null
-        }
-        return car
+
+        val tmpKey = filteredMap.entries.first().key
+        _map[tmpKey] = null
+
+        return filteredMap.entries.first().value
     }
 
     override fun getPlaceWhereParkingCar(numberCar: String): Place? {
-        var place: Place? = null
-        kotlin.run loop@{
-            _map.forEach{(key, value) ->
-                if (value != null) {
-                    if (value.number == numberCar) {
-                        place = key
-                        return@loop
-                    }
-                }
-            }
+        val filteredMap = _map.filter { (_, value) ->
+            value?.number == numberCar
         }
-
-        return place
+        return filteredMap.entries.first().key
     }
 
     override fun getInfoPlace(place: Place): Car? {
-        var car: Car? = null
-        _map.forEach{(key, value) ->
-            if (key == place) {
-                if (value != null) {
-                    car = value
-                }
-            }
+        val filteredMap = _map.filter { (key, _) ->
+            key == place
         }
-        return car
+        return filteredMap.entries.first().value
     }
 
     override fun getStateParking(): List<String> {
