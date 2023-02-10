@@ -41,14 +41,17 @@ class ManagerImpl(private var parking: Parking) : Manager {
 
     override fun getPlaceWhereParkingCar(numberCar: String): Place? {
         var place: Place? = null
-        _map.forEach{(key, value) ->
-            if (value != null) {
-                if (value.number == numberCar) {
-                    place = key
-                    return@forEach
+        kotlin.run loop@{
+            _map.forEach{(key, value) ->
+                if (value != null) {
+                    if (value.number == numberCar) {
+                        place = key
+                        return@loop
+                    }
                 }
             }
         }
+
         return place
     }
 
