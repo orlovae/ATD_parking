@@ -50,13 +50,13 @@ object IO {
 
         list.forEachIndexed{ index, value ->
             when (index) {
-                0 -> if (errorHandling(TypeInputData.STRING, value)) {
+                RETURN_CAR_INPUT_INDEX_OWNER_NAME -> if (errorHandling(TypeInputData.STRING, value)) {
                         printError(OUT_ERROR_INPUT_OWNER_NAME)
                     } else {
                     inputName = value
                     }
 
-                1 -> if (errorHandling(TypeInputData.LONG, value)) {
+                RETURN_CAR_INPUT_INDEX_OWNER_PASSPORT -> if (errorHandling(TypeInputData.LONG, value)) {
                         printError(OUT_ERROR_INPUT_OWNER_PASSPORT_NO_LONG)
                     } else {
                     inputPassport = value
@@ -109,31 +109,31 @@ object IO {
 
         list.forEachIndexed{ index, value ->
             when (index) {
-                0 -> if (errorHandling(TypeInputData.STRING, value)) {
+                PARKING_CAR_INPUT_INDEX_CAR_BRAND -> if (errorHandling(TypeInputData.STRING, value)) {
                     printError(OUT_ERROR_INPUT_CAR_BRAND)
                 } else {
                     inputBrandCar = value
                 }
 
-                1 -> if (errorHandling(TypeInputData.STRING, value)) {
+                PARKING_CAR_INPUT_INDEX_CAR_COLOR -> if (errorHandling(TypeInputData.STRING, value)) {
                     printError(OUT_ERROR_INPUT_CAR_COLOR)
                 } else {
                     inputColorCar = value
                 }
 
-                2 -> if (errorHandling(TypeInputData.STRING, value)) {
+                PARKING_CAR_INPUT_INDEX_CAR_NUMBER -> if (errorHandling(TypeInputData.STRING, value)) {
                     printError(OUT_ERROR_INPUT_CAR_NUMBER)
                 } else {
                     inputNumberCar = value
                 }
 
-                3 -> if (errorHandling(TypeInputData.STRING, value)) {
+                PARKING_CAR_INPUT_INDEX_OWNER_NAME -> if (errorHandling(TypeInputData.STRING, value)) {
                     printError(OUT_ERROR_INPUT_OWNER_NAME)
                 } else {
                     inputNameOwner = value
                 }
 
-                4 -> if (errorHandling(TypeInputData.LONG, value)) {
+                PARKING_CAR_INPUT_INDEX_OWNER_PASSPORT -> if (errorHandling(TypeInputData.LONG, value)) {
                     printError(OUT_ERROR_INPUT_OWNER_PASSPORT_NO_LONG)
                 } else {
                     inputPassportOwner = value
@@ -143,15 +143,13 @@ object IO {
 
         val owner = getInputOwnerOrNull("$inputNameOwner $inputPassportOwner")
 
-        if (owner != null) {
-            if (inputBrandCar?.isNotEmpty() == true &&
-                inputColorCar?.isNotEmpty() == true &&
-                inputNumberCar?.isNotEmpty() == true) {
+        if (inputBrandCar?.isNotEmpty() == true &&
+            inputColorCar?.isNotEmpty() == true &&
+            inputNumberCar?.isNotEmpty() == true &&
+            owner != null) {
+            car = Car(inputBrandCar!!, inputColorCar!!, inputNumberCar!!, owner)
 
-                car = Car(inputBrandCar!!, inputColorCar!!, inputNumberCar!!, owner)
-            }
         }
-
         return car
     }
 
@@ -262,7 +260,7 @@ object IO {
     }
 
 
-    /*Constant input*/
+    /*Constants input data fun readConsole */
     private const val IN_START = "/start"
     private const val IN_HELP = "/help"
     private const val IN_END = "/end"
@@ -273,7 +271,19 @@ object IO {
     private const val IN_PARK_STATS = "/park_stats"
     private const val IN_PARK_ALL_STATS = "/park_all_stats"
 
-    /*Constant output*/
+    /*Constants input data in fun parkingCar*/
+    private const val PARKING_CAR_INPUT_INDEX_CAR_BRAND = 0
+    private const val PARKING_CAR_INPUT_INDEX_CAR_COLOR = 1
+    private const val PARKING_CAR_INPUT_INDEX_CAR_NUMBER = 2
+    private const val PARKING_CAR_INPUT_INDEX_OWNER_NAME = 3
+    private const val PARKING_CAR_INPUT_INDEX_OWNER_PASSPORT = 4
+
+    /*Constants input data in fun returnCar*/
+
+    private const val RETURN_CAR_INPUT_INDEX_OWNER_NAME = 0
+    private const val RETURN_CAR_INPUT_INDEX_OWNER_PASSPORT = 1
+
+    /*Constants output*/
     private const val OUT_START = "Hello user!"
     private const val OUT_HELP = "/start - starting this program." +
             "\n/end - end and exit this program." +
@@ -291,7 +301,7 @@ object IO {
     private const val OUT_UNKNOWN = "This program cannot process the request. \nPlease call /help"
     private const val OUT_END = "See you user!"
 
-    /*Constant error*/
+    /*Constants error*/
     private const val OUT_ERROR_INPUT_OWNER_NAME = "Invalid value - OWNER NAME. " +
             "\nThe OWNER NAME value can't be empty and must consist of at least 1 letter."
     private const val OUT_ERROR_INPUT_OWNER_PASSPORT_NO_LONG = "Invalid value - OWNER PASSPORT. " +
