@@ -41,7 +41,7 @@ object IO {
         }
     }
 
-    private fun getInputOwnerOrNull(string: String) : Owner? {
+    private fun getInputOwnerOrNull(string: String): Owner? {
         var owner: Owner? = null
         val list: List<String> = string.split(" ")
 
@@ -69,7 +69,7 @@ object IO {
         return owner
     }
 
-    private fun errorHandling(type: TypeInputData, value: String?) : Boolean {
+    private fun errorHandling(type: TypeInputData, value: String?): Boolean {
         return when (type) {
             TypeInputData.STRING -> value.isNullOrEmpty()
             TypeInputData.LONG -> value?.toLongOrNull() == null
@@ -97,7 +97,7 @@ object IO {
         }
     }
 
-    private fun getInputCarOrNull(string: String) : Car? {
+    private fun getInputCarOrNull(string: String): Car? {
         var car: Car? = null
         val list: List<String> = string.split(" ")
 
@@ -176,7 +176,7 @@ object IO {
         }
     }
 
-    private fun isNumberCar(numberCar: String) : Boolean {
+    private fun isNumberCar(numberCar: String): Boolean {
         val place = manager.getPlaceWhereParkingCar(numberCar)
         return place != null
     }
@@ -189,7 +189,7 @@ object IO {
         }
     }
 
-    private fun getInputNumberCarOrNull(inputString: String) : String {
+    private fun getInputNumberCarOrNull(inputString: String): String {
         return if (inputString.isNotEmpty()) {
             inputString
         } else {
@@ -223,14 +223,14 @@ object IO {
         }
     }
 
-    private fun getInputNumberPlaceOrNull(inputString: String) : String {
+    private fun getInputNumberPlaceOrNull(inputString: String): String {
         return if (inputString.isNotEmpty()) {
             inputString
         } else {
             ""
         }
     }
-    private fun isNumberPlace(numberPlace: String) : Boolean {
+    private fun isNumberPlace(numberPlace: String): Boolean {
         return manager.containsInputPlaceInParking(Place(numberPlace))
     }
 
