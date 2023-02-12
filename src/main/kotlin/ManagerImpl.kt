@@ -13,7 +13,7 @@ class ManagerImpl(private var parking: Parking) : Manager {
 
     override fun parkingCar(car: Car): Boolean {
         _map.forEach { (key, value) ->
-            if (value == null) {
+            value ?: run {
                 _map += key to car
                 counterParking++
                 return true
@@ -37,7 +37,11 @@ class ManagerImpl(private var parking: Parking) : Manager {
         val filteredMap = _map.filter { (_, value) ->
             value?.number == numberCar
         }
-        return filteredMap.entries.first().key
+        return try {
+            filteredMap.entries.first().key
+        } catch (e: Exception) {
+            null
+        }
     }
 
     override fun getInfoPlace(place: Place): Car? {
@@ -54,11 +58,11 @@ class ManagerImpl(private var parking: Parking) : Manager {
             string.append("Place = ")
                 .append(key.number)
                 .append(", ")
-            if (value == null) {
-                string.append(Config.FREE)
-            } else {
-                string.append(value.toString())
-            }
+
+            value?.let {
+                string.append(it.toString())
+            } ?: string.append(Config.FREE)
+
             stateParking.add(string.toString())
         }
         return Collections.unmodifiableList(stateParking)
@@ -68,7 +72,7 @@ class ManagerImpl(private var parking: Parking) : Manager {
         return counterParking
     }
 
-    fun containsInputPlaceInParking(place: Place) : Boolean {
+    fun containsInputPlaceInParking(place: Place): Boolean {
         return _map.containsKey(place)
     }
 

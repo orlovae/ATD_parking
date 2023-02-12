@@ -32,34 +32,32 @@ object IO {
             owner = getInputOwnerOrNull(inputStringNext)
         }
 
-       val car = manager.getCarOwner(owner)
+        val car = manager.getCarOwner(owner)
 
-         if (car != null) {
-            println("$car get owner $owner")
-        } else {
-            println("This $owner does not belong to any car")
-        }
+        car?.let {
+            println("$it get owner $owner")
+        } ?: println("This $owner does not belong to any car")
     }
 
-    private fun getInputOwnerOrNull(string: String) : Owner? {
+    private fun getInputOwnerOrNull(string: String): Owner? {
         var owner: Owner? = null
         val list: List<String> = string.split(" ")
 
         var inputName: String? = null
-        var inputPassport : String? = null
+        var inputPassport: String? = null
 
         list.forEachIndexed{ index, value ->
             when (index) {
-                0 -> if (errorHandling(TypeInputData.STRING, value)) {
-                        printError(OUT_ERROR_INPUT_OWNER_NAME)
-                    } else {
+                RETURN_CAR_INPUT_INDEX_OWNER_NAME -> if (!errorHandling(TypeInputData.STRING, value)) {
                     inputName = value
-                    }
+                } else {
+                    printError(OUT_ERROR_INPUT_OWNER_NAME)
+                }
 
-                1 -> if (errorHandling(TypeInputData.LONG, value)) {
-                        printError(OUT_ERROR_INPUT_OWNER_PASSPORT_NO_LONG)
-                    } else {
+                RETURN_CAR_INPUT_INDEX_OWNER_PASSPORT -> if (!errorHandling(TypeInputData.LONG, value)) {
                     inputPassport = value
+                } else {
+                    printError(OUT_ERROR_INPUT_OWNER_PASSPORT_NO_LONG)
                 }
             }
         }
@@ -69,7 +67,7 @@ object IO {
         return owner
     }
 
-    private fun errorHandling(type: TypeInputData, value: String?) : Boolean {
+    private fun errorHandling(type: TypeInputData, value: String?): Boolean {
         return when (type) {
             TypeInputData.STRING -> value.isNullOrEmpty()
             TypeInputData.LONG -> value?.toLongOrNull() == null
@@ -81,23 +79,25 @@ object IO {
     }
 
     private fun parkCar() {
-        val inputString = readln()
-        var car = getInputCarOrNull(inputString)
+        var car = getInputCarOrNull(
+            readln()
+        )
         while (car == null) {
-            val inputStringNext = readln()
-            car = getInputCarOrNull(inputStringNext)
+            car = getInputCarOrNull(
+                readln()
+            )
         }
 
         val isParking = manager.parkingCar(car)
 
-         if (isParking) {
+        if (isParking) {
             println("$car parking")
         } else {
             println("This $car doesn't have a single owner")
         }
     }
 
-    private fun getInputCarOrNull(string: String) : Car? {
+    private fun getInputCarOrNull(string: String): Car? {
         var car: Car? = null
         val list: List<String> = string.split(" ")
 
@@ -109,55 +109,54 @@ object IO {
 
         list.forEachIndexed{ index, value ->
             when (index) {
-                0 -> if (errorHandling(TypeInputData.STRING, value)) {
-                    printError(OUT_ERROR_INPUT_CAR_BRAND)
-                } else {
+                PARKING_CAR_INPUT_INDEX_CAR_BRAND -> if (!errorHandling(TypeInputData.STRING, value)) {
                     inputBrandCar = value
+                } else {
+                    printError(OUT_ERROR_INPUT_CAR_BRAND)
                 }
 
-                1 -> if (errorHandling(TypeInputData.STRING, value)) {
-                    printError(OUT_ERROR_INPUT_CAR_COLOR)
-                } else {
+                PARKING_CAR_INPUT_INDEX_CAR_COLOR -> if (!errorHandling(TypeInputData.STRING, value)) {
                     inputColorCar = value
+                } else {
+                    printError(OUT_ERROR_INPUT_CAR_COLOR)
                 }
 
-                2 -> if (errorHandling(TypeInputData.STRING, value)) {
-                    printError(OUT_ERROR_INPUT_CAR_NUMBER)
-                } else {
+                PARKING_CAR_INPUT_INDEX_CAR_NUMBER -> if (!errorHandling(TypeInputData.STRING, value)) {
                     inputNumberCar = value
+                } else {
+                    printError(OUT_ERROR_INPUT_CAR_NUMBER)
                 }
 
-                3 -> if (errorHandling(TypeInputData.STRING, value)) {
-                    printError(OUT_ERROR_INPUT_OWNER_NAME)
-                } else {
+                PARKING_CAR_INPUT_INDEX_OWNER_NAME -> if (!errorHandling(TypeInputData.STRING, value)) {
                     inputNameOwner = value
+                } else {
+                    printError(OUT_ERROR_INPUT_OWNER_NAME)
                 }
 
-                4 -> if (errorHandling(TypeInputData.LONG, value)) {
-                    printError(OUT_ERROR_INPUT_OWNER_PASSPORT_NO_LONG)
-                } else {
+                PARKING_CAR_INPUT_INDEX_OWNER_PASSPORT -> if (!errorHandling(TypeInputData.LONG, value)) {
                     inputPassportOwner = value
+                } else {
+                    printError(OUT_ERROR_INPUT_OWNER_PASSPORT_NO_LONG)
                 }
             }
         }
 
         val owner = getInputOwnerOrNull("$inputNameOwner $inputPassportOwner")
 
-        if (owner != null) {
-            if (inputBrandCar?.isNotEmpty() == true &&
-                inputColorCar?.isNotEmpty() == true &&
-                inputNumberCar?.isNotEmpty() == true) {
+        if (inputBrandCar?.isNotEmpty() == true &&
+            inputColorCar?.isNotEmpty() == true &&
+            inputNumberCar?.isNotEmpty() == true &&
+            owner != null) {
+            car = Car(inputBrandCar!!, inputColorCar!!, inputNumberCar!!, owner)
 
-                car = Car(inputBrandCar!!, inputColorCar!!, inputNumberCar!!, owner)
-            }
         }
-
         return car
     }
 
     private fun parkInfoByCar() {
-        val inputString = readln()
-        val numberCar = getInputNumberCarOrNull(inputString)
+        val numberCar = getInputNumberCarOrNull(
+            readln()
+        )
         if (isNumberCar(numberCar)) {
             printCheckInputNumberCar(
                 isNumberCar(numberCar),
@@ -169,8 +168,9 @@ object IO {
                 isNumberCar(numberCar),
                 numberCar
             )
-            val inputStringNext = readln()
-            val numberCarNext = getInputNumberCarOrNull(inputStringNext)
+            val numberCarNext = getInputNumberCarOrNull(
+                readln()
+            )
             printCheckInputNumberCar(
                 isNumberCar(numberCarNext),
                 numberCarNext
@@ -201,8 +201,9 @@ object IO {
     }
 
     private fun parkInfoByPlace(){
-        val inputString = readln()
-        val numberPlace = getInputNumberPlaceOrNull(inputString)
+        val numberPlace = getInputNumberPlaceOrNull(
+            readln()
+        )
 
         if (isNumberPlace(numberPlace)) {
             printCheckInputNumberPlace(
@@ -215,8 +216,10 @@ object IO {
                 isNumberPlace(numberPlace),
                 numberPlace
             )
-            val inputStringNext = readln()
-            val numberPlaceNext = getInputNumberCarOrNull(inputStringNext)
+
+            val numberPlaceNext = getInputNumberCarOrNull(
+                readln()
+            )
 
             printCheckInputNumberPlace(
                 isNumberPlace(numberPlaceNext),
@@ -239,11 +242,9 @@ object IO {
     private fun printCheckInputNumberPlace(isNumberPlace: Boolean, numberPlace: String) {
         if (isNumberPlace) {
             val car = manager.getInfoPlace(Place(numberPlace))
-            if (car != null) {
-                println("Place $numberPlace parking in $car")
-            } else {
-                println("Place $numberPlace is empty")
-            }
+            car?.let {
+                println("Place $numberPlace parking in $it")
+            } ?: println("Place $numberPlace is empty")
         } else {
             println(OUT_ERROR_INPUT_PLACE_NUMBER_NOT_FOUND)
         }
@@ -262,7 +263,7 @@ object IO {
     }
 
 
-    /*Constant input*/
+    /*Constants input data fun readConsole */
     private const val IN_START = "/start"
     private const val IN_HELP = "/help"
     private const val IN_END = "/end"
@@ -273,7 +274,19 @@ object IO {
     private const val IN_PARK_STATS = "/park_stats"
     private const val IN_PARK_ALL_STATS = "/park_all_stats"
 
-    /*Constant output*/
+    /*Constants input data in fun parkingCar*/
+    private const val PARKING_CAR_INPUT_INDEX_CAR_BRAND = 0
+    private const val PARKING_CAR_INPUT_INDEX_CAR_COLOR = 1
+    private const val PARKING_CAR_INPUT_INDEX_CAR_NUMBER = 2
+    private const val PARKING_CAR_INPUT_INDEX_OWNER_NAME = 3
+    private const val PARKING_CAR_INPUT_INDEX_OWNER_PASSPORT = 4
+
+    /*Constants input data in fun returnCar*/
+
+    private const val RETURN_CAR_INPUT_INDEX_OWNER_NAME = 0
+    private const val RETURN_CAR_INPUT_INDEX_OWNER_PASSPORT = 1
+
+    /*Constants output*/
     private const val OUT_START = "Hello user!"
     private const val OUT_HELP = "/start - starting this program." +
             "\n/end - end and exit this program." +
@@ -291,7 +304,7 @@ object IO {
     private const val OUT_UNKNOWN = "This program cannot process the request. \nPlease call /help"
     private const val OUT_END = "See you user!"
 
-    /*Constant error*/
+    /*Constants error*/
     private const val OUT_ERROR_INPUT_OWNER_NAME = "Invalid value - OWNER NAME. " +
             "\nThe OWNER NAME value can't be empty and must consist of at least 1 letter."
     private const val OUT_ERROR_INPUT_OWNER_PASSPORT_NO_LONG = "Invalid value - OWNER PASSPORT. " +
