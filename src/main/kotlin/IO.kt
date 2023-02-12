@@ -34,11 +34,9 @@ object IO {
 
        val car = manager.getCarOwner(owner)
 
-         if (car != null) {
-            println("$car get owner $owner")
-        } else {
-            println("This $owner does not belong to any car")
-        }
+        car?.let {
+            println("$it get owner $owner")
+        } ?: println("This $owner does not belong to any car")
     }
 
     private fun getInputOwnerOrNull(string: String): Owner? {
@@ -81,11 +79,13 @@ object IO {
     }
 
     private fun parkCar() {
-        val inputString = readln()
-        var car = getInputCarOrNull(inputString)
+        var car = getInputCarOrNull(
+            readln()
+        )
         while (car == null) {
-            val inputStringNext = readln()
-            car = getInputCarOrNull(inputStringNext)
+            car = getInputCarOrNull(
+                readln()
+            )
         }
 
         val isParking = manager.parkingCar(car)
@@ -154,8 +154,9 @@ object IO {
     }
 
     private fun parkInfoByCar() {
-        val inputString = readln()
-        val numberCar = getInputNumberCarOrNull(inputString)
+        val numberCar = getInputNumberCarOrNull(
+            readln()
+        )
         if (isNumberCar(numberCar)) {
             printCheckInputNumberCar(
                 isNumberCar(numberCar),
@@ -167,8 +168,9 @@ object IO {
                 isNumberCar(numberCar),
                 numberCar
             )
-            val inputStringNext = readln()
-            val numberCarNext = getInputNumberCarOrNull(inputStringNext)
+            val numberCarNext = getInputNumberCarOrNull(
+                readln()
+            )
             printCheckInputNumberCar(
                 isNumberCar(numberCarNext),
                 numberCarNext
@@ -199,8 +201,9 @@ object IO {
     }
 
     private fun parkInfoByPlace(){
-        val inputString = readln()
-        val numberPlace = getInputNumberPlaceOrNull(inputString)
+        val numberPlace = getInputNumberPlaceOrNull(
+            readln()
+        )
 
         if (isNumberPlace(numberPlace)) {
             printCheckInputNumberPlace(
@@ -213,8 +216,10 @@ object IO {
                 isNumberPlace(numberPlace),
                 numberPlace
             )
-            val inputStringNext = readln()
-            val numberPlaceNext = getInputNumberCarOrNull(inputStringNext)
+
+            val numberPlaceNext = getInputNumberCarOrNull(
+                readln()
+            )
 
             printCheckInputNumberPlace(
                 isNumberPlace(numberPlaceNext),
@@ -237,11 +242,9 @@ object IO {
     private fun printCheckInputNumberPlace(isNumberPlace: Boolean, numberPlace: String) {
         if (isNumberPlace) {
             val car = manager.getInfoPlace(Place(numberPlace))
-            if (car != null) {
-                println("Place $numberPlace parking in $car")
-            } else {
-                println("Place $numberPlace is empty")
-            }
+            car?.let {
+                println("Place $numberPlace parking in $it")
+            } ?: println("Place $numberPlace is empty")
         } else {
             println(OUT_ERROR_INPUT_PLACE_NUMBER_NOT_FOUND)
         }
