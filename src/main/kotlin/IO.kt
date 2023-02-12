@@ -46,7 +46,7 @@ object IO {
         val list: List<String> = string.split(" ")
 
         var inputName: String? = null
-        var inputPassport : String? = null
+        var inputPassport: String? = null
 
         list.forEachIndexed{ index, value ->
             when (index) {
@@ -176,7 +176,7 @@ object IO {
         }
     }
 
-    private fun isNumberCar(numberCar: String): Boolean {
+    private fun isNumberCar(numberCar: String) : Boolean {
         val place = manager.getPlaceWhereParkingCar(numberCar)
         return place != null
     }
@@ -189,7 +189,7 @@ object IO {
         }
     }
 
-    private fun getInputNumberCarOrNull(inputString: String): String {
+    private fun getInputNumberCarOrNull(inputString: String) : String {
         return if (inputString.isNotEmpty()) {
             inputString
         } else {
@@ -223,14 +223,14 @@ object IO {
         }
     }
 
-    private fun getInputNumberPlaceOrNull(inputString: String): String {
+    private fun getInputNumberPlaceOrNull(inputString: String) : String {
         return if (inputString.isNotEmpty()) {
             inputString
         } else {
             ""
         }
     }
-    private fun isNumberPlace(numberPlace: String): Boolean {
+    private fun isNumberPlace(numberPlace: String) : Boolean {
         return manager.containsInputPlaceInParking(Place(numberPlace))
     }
 

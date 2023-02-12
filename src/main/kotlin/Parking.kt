@@ -13,11 +13,11 @@ class Parking(numberPlaces: Int) {
         places = Collections.unmodifiableList(_places)
     }
 
-    fun getParking(): List<Place> {
+    fun getParking() : List<Place> {
         return places
     }
 
-    fun getPlace(index: Int): Place {
+    fun getPlace(index: Int) : Place {
         return places[index]
     }
 }
