@@ -50,16 +50,16 @@ object IO {
 
         list.forEachIndexed{ index, value ->
             when (index) {
-                RETURN_CAR_INPUT_INDEX_OWNER_NAME -> if (errorHandling(TypeInputData.STRING, value)) {
-                        printError(OUT_ERROR_INPUT_OWNER_NAME)
-                    } else {
+                RETURN_CAR_INPUT_INDEX_OWNER_NAME -> if (!errorHandling(TypeInputData.STRING, value)) {
                     inputName = value
-                    }
+                } else {
+                        printError(OUT_ERROR_INPUT_OWNER_NAME)
+                }
 
-                RETURN_CAR_INPUT_INDEX_OWNER_PASSPORT -> if (errorHandling(TypeInputData.LONG, value)) {
-                        printError(OUT_ERROR_INPUT_OWNER_PASSPORT_NO_LONG)
-                    } else {
+                RETURN_CAR_INPUT_INDEX_OWNER_PASSPORT -> if (!errorHandling(TypeInputData.LONG, value)) {
                     inputPassport = value
+                } else {
+                    printError(OUT_ERROR_INPUT_OWNER_PASSPORT_NO_LONG)
                 }
             }
         }
@@ -109,34 +109,34 @@ object IO {
 
         list.forEachIndexed{ index, value ->
             when (index) {
-                PARKING_CAR_INPUT_INDEX_CAR_BRAND -> if (errorHandling(TypeInputData.STRING, value)) {
-                    printError(OUT_ERROR_INPUT_CAR_BRAND)
-                } else {
+                PARKING_CAR_INPUT_INDEX_CAR_BRAND -> if (!errorHandling(TypeInputData.STRING, value)) {
                     inputBrandCar = value
+                } else {
+                    printError(OUT_ERROR_INPUT_CAR_BRAND)
                 }
 
-                PARKING_CAR_INPUT_INDEX_CAR_COLOR -> if (errorHandling(TypeInputData.STRING, value)) {
-                    printError(OUT_ERROR_INPUT_CAR_COLOR)
-                } else {
+                PARKING_CAR_INPUT_INDEX_CAR_COLOR -> if (!errorHandling(TypeInputData.STRING, value)) {
                     inputColorCar = value
+                } else {
+                    printError(OUT_ERROR_INPUT_CAR_COLOR)
                 }
 
-                PARKING_CAR_INPUT_INDEX_CAR_NUMBER -> if (errorHandling(TypeInputData.STRING, value)) {
-                    printError(OUT_ERROR_INPUT_CAR_NUMBER)
-                } else {
+                PARKING_CAR_INPUT_INDEX_CAR_NUMBER -> if (!errorHandling(TypeInputData.STRING, value)) {
                     inputNumberCar = value
+                } else {
+                    printError(OUT_ERROR_INPUT_CAR_NUMBER)
                 }
 
-                PARKING_CAR_INPUT_INDEX_OWNER_NAME -> if (errorHandling(TypeInputData.STRING, value)) {
-                    printError(OUT_ERROR_INPUT_OWNER_NAME)
-                } else {
+                PARKING_CAR_INPUT_INDEX_OWNER_NAME -> if (!errorHandling(TypeInputData.STRING, value)) {
                     inputNameOwner = value
+                } else {
+                    printError(OUT_ERROR_INPUT_OWNER_NAME)
                 }
 
-                PARKING_CAR_INPUT_INDEX_OWNER_PASSPORT -> if (errorHandling(TypeInputData.LONG, value)) {
-                    printError(OUT_ERROR_INPUT_OWNER_PASSPORT_NO_LONG)
-                } else {
+                PARKING_CAR_INPUT_INDEX_OWNER_PASSPORT -> if (!errorHandling(TypeInputData.LONG, value)) {
                     inputPassportOwner = value
+                } else {
+                    printError(OUT_ERROR_INPUT_OWNER_PASSPORT_NO_LONG)
                 }
             }
         }
