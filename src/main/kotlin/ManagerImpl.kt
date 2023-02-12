@@ -2,17 +2,20 @@ import java.util.Collections
 
 class ManagerImpl(private var parking: Parking) : Manager {
     private var _map = mutableMapOf<Place, Car?>()
+    private var counterParking: Int
 
     init {
         parking.getParking().forEach {
             _map[it] = null
         }
+        counterParking = 0
     }
 
     override fun parkingCar(car: Car): Boolean {
         _map.forEach { (key, value) ->
-            if (value == null) {
+            value ?: run {
                 _map += key to car
+                counterParking++
                 return true
             }
         }
@@ -20,68 +23,56 @@ class ManagerImpl(private var parking: Parking) : Manager {
     }
 
     override fun getCarOwner(owner: Owner): Car? {
-        var car: Car? = null
-        var tmpKey: Place? = null
-        _map.forEach{(key, value) ->
-            if (value != null) {
-                if (value.owner == owner) {
-                    car = value
-                    tmpKey = key
-                }
-            }
+        val filteredMap = _map.filter { (_, value) ->
+            value?.owner == owner
         }
-        if (tmpKey != null) {
-            _map[tmpKey!!] = null
-        }
-        return car
+
+        val tmpKey = filteredMap.entries.first().key
+        _map[tmpKey] = null
+
+        return filteredMap.entries.first().value
     }
 
     override fun getPlaceWhereParkingCar(numberCar: String): Place? {
-        var place: Place? = null
-        _map.forEach{(key, value) ->
-            if (value != null) {
-                if (value.number == numberCar) {
-                    place = key
-                }
-            }
+        val filteredMap = _map.filter { (_, value) ->
+            value?.number == numberCar
         }
-        return place
+        return try {
+            filteredMap.entries.first().key
+        } catch (e: Exception) {
+            null
+        }
     }
 
     override fun getInfoPlace(place: Place): Car? {
-        var car: Car? = null
-        _map.forEach{(key, value) ->
-            if (key == place) {
-                if (value != null) {
-                    car = value
-                }
-            }
+        val filteredMap = _map.filter { (key, _) ->
+            key == place
         }
-        return car
+        return filteredMap.entries.first().value
     }
 
-    override fun loadStateParking(): List<String> {
+    override fun getStateParking(): List<String> {
         val stateParking = mutableListOf<String>()
         _map.forEach { (key, value) ->
             val string = StringBuilder()
             string.append("Place = ")
                 .append(key.number)
                 .append(", ")
-            if (value == null) {
-                string.append(Config.FREE)
-            } else {
-                string.append(value.toString())
-            }
+
+            value?.let {
+                string.append(it.toString())
+            } ?: string.append(Config.FREE)
+
             stateParking.add(string.toString())
         }
         return Collections.unmodifiableList(stateParking)
     }
 
-    override fun loadStatistics(period: String): String {
-        TODO("Not yet implemented")
+    override fun getCounterParking(): Int {
+        return counterParking
     }
 
-    fun containsInputPlaceInParking(place: Place) : Boolean {
+    fun containsInputPlaceInParking(place: Place): Boolean {
         return _map.containsKey(place)
     }
 
